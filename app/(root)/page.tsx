@@ -1,7 +1,8 @@
 import HeaderBox from '@/components/HeaderBox';
 import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
-import React from 'react';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
+import React, { useEffect } from 'react';
 
 const Home = () => {
   const loggedIn = {
@@ -9,6 +10,7 @@ const Home = () => {
     lastName: 'ISM',
     email: 'Adam@self.com',
   };
+
   return (
     <section className='home'>
       <div className='home-content'>
