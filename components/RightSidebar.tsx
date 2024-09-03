@@ -3,9 +3,18 @@ import Link from 'next/link';
 import React from 'react';
 import BankCard from './BankCard';
 import { countTransactionCategories } from '@/lib/utils';
+import Category from './Category';
 
 const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
   const categories: CategoryCount[] = countTransactionCategories(transactions);
+  // Check if user is null or undefined
+  if (!user) {
+    return (
+      <aside className='right-sidebar'>
+        <p className='text-center text-gray-500'>User data not available.</p>
+      </aside>
+    );
+  }
 
   return (
     <aside className='right-sidebar'>
@@ -13,13 +22,17 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
         <div className='profile-banner' />
         <div className='profile'>
           <div className='profile-img'>
+            {/* Use optional chaining to safely access user.firstName */}
             <span className='text-5xl font-bold text-blue-500'>
-              {user.firstName[0]}
+              {user.firstName?.[0]}
             </span>
           </div>
 
           <div className='profile-details'>
-            <h1 className='profile-name'>{user.name}</h1>
+            <h1 className='profile-name'>
+              {/* Use optional chaining to safely access user.firstName and user.lastName */}
+              {user.firstName} {user.lastName}
+            </h1>
             <p className='profile-email'>{user.email}</p>
           </div>
         </div>
@@ -40,7 +53,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
               <BankCard
                 key={banks[0].$id}
                 account={banks[0]}
-                userName={`${user.firstName}  ${user.lastName}`}
+                userName={`${user.firstName} ${user.lastName}`}
                 showBalance={false}
               />
             </div>
@@ -56,6 +69,14 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
             )}
           </div>
         )}
+        <div className='mt-10 flex flex-col gap-6'>
+          <h2 className='header-2'>Top Categories</h2>
+          <div className='space-y-5'>
+            {categories.map((category, index) => (
+              <Category key={category.name} category={category} />
+            ))}
+          </div>
+        </div>
       </section>
     </aside>
   );

@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { text } from 'stream/consumers';
 import Footer from './Footer';
+import PlaidLink from './PlaidLink';
 
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathName = usePathname();
@@ -22,7 +23,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             width={43}
             height={34}
             alt='Bank logo'
-            className='size-[24px] max-xl: size-14'
+            className='size-[24px] max-xl:size-14 '
           />
           <h1 className='sidebar-logo'>Banking</h1>
         </Link>
@@ -50,7 +51,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             </Link>
           );
         })}
-        USER
+        <PlaidLink user={user} />
       </div>
       <Footer user={user} />
     </section>
