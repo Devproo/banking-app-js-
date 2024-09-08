@@ -63,4 +63,4 @@ export const Pagination = ({ page, totalPages }: PaginationProps) => {
   );
 };
 
-export default Pagination;
+export default recent - transactions - label;
