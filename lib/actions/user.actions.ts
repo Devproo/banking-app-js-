@@ -37,7 +37,6 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
     console.log(error);
   }
 };
-
 export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createAdminClient();
@@ -52,7 +51,8 @@ export const signIn = async ({ email, password }: signInProps) => {
     const user = await getUserInfo({ userId: session.userId });
     return parseStringify(user);
   } catch (error) {
-    console.error('Error', error);
+    console.error('Sign-in error:', error);
+    throw new Error('Failed to sign in');
   }
 };
 
@@ -71,14 +71,14 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       password,
       `${firstName}${lastName}`
     );
-    if (!newUserAccount) throw new Error('error when creating account');
+    if (!newUserAccount) throw new Error('Error creating account');
 
     const dwollaCustomerUrl = await createDwollaCustomer({
       ...userData,
       type: 'personal',
     });
 
-    if (!dwollaCustomerUrl) throw new Error('error creating dwolla customer');
+    if (!dwollaCustomerUrl) throw new Error('Error creating Dwolla customer');
     const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
     const newUser = await database.createDocument(
       DATABASE_ID!,
@@ -103,7 +103,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     return parseStringify(newUserAccount);
   } catch (error) {
-    console.error('Error');
+    console.error('Sign-up error:', error);
+    throw new Error('Failed to sign up');
   }
 };
 

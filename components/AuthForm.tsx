@@ -42,7 +42,6 @@ const AuthForm = ({ type }: { type: string }) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Sign in with appwrite & Create plain link
       if (type === 'sign-up') {
         const userData = {
           firstName: data.firstName!,
@@ -67,6 +66,7 @@ const AuthForm = ({ type }: { type: string }) => {
         if (response) router.push('/');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
     } finally {
       setIsLoading(false);
     }
